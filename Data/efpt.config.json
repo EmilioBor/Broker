@@ -1,0 +1,73 @@
+﻿{
+   "CodeGenerationMode": 3,
+   "ContextClassName": "BrokerDBContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": false,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "Models",
+   "PreserveCasingWithRegex": true,
+   "ProjectRootNamespace": "Data",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 2,
+   "SelectedToBeGenerated": 0,
+   "T4TemplatePath": null,
+   "Tables": [
+      {
+         "Name": "public.aceptadoestado",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.banco",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.bancoestado",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.cuenta",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.registroestado",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.tipo",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.transaccion",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.validacionestado",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": ".BrokerDB",
+   "UncountableWords": null,
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDateOnlyTimeOnly": false,
+   "UseDbContextSplitting": false,
+   "UseDecimalDataAnnotationForSprocResult": true,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": false,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UseSchemaFolders": false,
+   "UseSchemaNamespaces": false,
+   "UseSpatial": false,
+   "UseT4": false
+}
