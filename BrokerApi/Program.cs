@@ -1,5 +1,6 @@
 using Data.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Service.Interface;
 
 
@@ -21,6 +22,20 @@ builder.Services.AddScoped<Service.Interface.IBancoService, Service.Metodos.Banc
 builder.Services.AddScoped<ICuentaService, Service.Metodos.CuentaService>();
 builder.Services.AddScoped<ITransaccionService, Service.Metodos.TransaccionService>();
 
+//Coneccion con el Front
+var proveedor = builder.Services.BuildServiceProvider();
+var configuracion = proveedor.GetRequiredService<IConfiguration>();
+
+builder.Services.AddCors(opciones =>
+{
+    var frontendURL = configuracion.GetValue<string>("frontend_url"); //acceso a mi app de react
+
+    opciones.AddDefaultPolicy(builder =>
+    {
+        builder.WithOrigins(frontendURL).AllowAnyMethod().AllowAnyHeader();
+    });
+
+});
 
 var app = builder.Build();
 
