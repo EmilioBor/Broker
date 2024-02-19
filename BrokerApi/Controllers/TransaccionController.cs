@@ -32,14 +32,14 @@ namespace Broker.Controllers
         }
 
         [HttpPost] // agrega transaccion
-        public async Task<IActionResult> agregarTransaccion([FromBody] TransaccionDtoAgregar transaccion, int dniOrigen, int dniDestino, string cbuOrigen, string cbuDestino)
+        public async Task<IActionResult> agregarTransaccion([FromBody] TransaccionDtoAgregar transaccion, int cuitOrigen, int cuitDestino, string cbuOrigen, string cbuDestino)
         {
             if (transaccion == null)
             {
                 return BadRequest("Los datos de la transaccion no son válidos.");
             }
 
-            if (await _transaccionService.agregarTransaccion(transaccion,dniOrigen,dniDestino, cbuOrigen, cbuDestino))
+            if (await _transaccionService.agregarTransaccion(transaccion,cuitOrigen,cuitDestino, cbuOrigen, cbuDestino))
             {
 
                 // Devuelvo una respuesta de éxito con el código de estado 201 (Created)

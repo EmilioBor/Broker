@@ -64,11 +64,11 @@ namespace Service.Metodos
             return transaccionesOrdenadas;
         }
 
-        public async Task<bool> validarTransaccion(TransaccionDtoAgregar transaccionDto, int dniOrigen, int dniDestino, string cbuOrigen, string cbuDestino)
+        public async Task<bool> validarTransaccion(TransaccionDtoAgregar transaccionDto, int cuitOrigen, int cuitDestino, string cbuOrigen, string cbuDestino)
         {
             //estrategia: 
             // -recibir cbu Origen y destino, Obtener bancos de los cbu y verificar existencia en nuestra bd
-            // -recibir dni origen y destino, enviarselos al renaper para verificar.
+            // -recibir cuit origen y destino, enviarselos al renaper para verificar.
             // -retorno true si cumple ambas verificaciones, de lo contrario retorno false
             try
             {
@@ -84,11 +84,11 @@ namespace Service.Metodos
                     return false;
                 }
 
-                // consulto al endpoint del Renaper la validez de los Dni (falta insertar endpoint)
-                bool esValidoDniOrigen = true;// await _httpClient.GetAsync(apiUrl/);
-                bool esValidoDniDestino = true;//await _httpClient.GetAsync(apiUrl/);
+                // consulto al endpoint del Renaper la validez de los cuit (falta insertar endpoint)
+                bool esValidocuitOrigen = true;// await _httpClient.GetAsync(apiUrl/);
+                bool esValidocuitDestino = true;//await _httpClient.GetAsync(apiUrl/);
 
-                if (esValidoDniOrigen == false || esValidoDniDestino == false)
+                if (esValidocuitOrigen == false || esValidocuitDestino == false)
                 {
                     return false;
                 }
@@ -102,7 +102,7 @@ namespace Service.Metodos
             }
         }
 
-        public async Task<bool> agregarTransaccion(TransaccionDtoAgregar transaccionDto, int dniOrigen, int dniDestino, string cbuOrigen, string cbuDestino)
+        public async Task<bool> agregarTransaccion(TransaccionDtoAgregar transaccionDto, int cuitOrigen, int cuitDestino, string cbuOrigen, string cbuDestino)
         {
             // Estrategia:
             // valido la información de la transacción
@@ -118,14 +118,14 @@ namespace Service.Metodos
 
                 var transaccion = new Transaccion();// creo Transaccion
 
-                // validacionEstados: (1: validando bancos, 2: validando DNI, 3: validacion exitosa, 4: validacion rechazada)
+                // validacionEstados: (1: validando bancos, 2: validando cuit, 3: validacion exitosa, 4: validacion rechazada)
                 transaccion.IdValidacionEstado = 1; // seteo estado validando bancos
 
                 // problema: tenemos que cambiar el estado de la transacción dentro de la funcion validarTransaccion y no dentro de esta funcion
                 // hay que pasar de alguna manera el objeto transacción a la funcion validar para poder cambiarle el estado a la transaccion y se pueda ver el proceso de que 
                 // cosas se estan validando
 
-                bool validacion = await validarTransaccion(transaccionDto, dniOrigen, dniDestino, cbuOrigen, cbuDestino);
+                bool validacion = await validarTransaccion(transaccionDto, cuitOrigen, cuitDestino, cbuOrigen, cbuDestino);
 
                 if (validacion == true)
                 {

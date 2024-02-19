@@ -8,7 +8,7 @@ namespace Service.Interface
         Task<int> RetornarIdTipo(string tipo);
         Task<IEnumerable<Transaccion>> listarTransacciones();
         Task<IEnumerable<Transaccion>> listarTransaccionesPorFecha();
-        Task<bool> validarTransaccion(TransaccionDtoAgregar transaccionDto, int dniOrigen, int dniDestino, string cbuOrigen, string cbuDestino);
-        Task<bool> agregarTransaccion(TransaccionDtoAgregar transaccionDto, int dniOrigen, int dniDestino, string cbuOrigen, string cbuDestino);
+        Task<bool> validarTransaccion(TransaccionDtoAgregar transaccionDto, int cuitOrigen, int cuitDestino, string cbuOrigen, string cbuDestino);
+        Task<bool> agregarTransaccion(TransaccionDtoAgregar transaccionDto, int cuitOrigen, int cuitDestino, string cbuOrigen, string cbuDestino);
     }
 }
