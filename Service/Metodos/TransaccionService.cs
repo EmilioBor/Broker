@@ -64,8 +64,8 @@ namespace Service.Metodos
             return transaccionesOrdenadas;
         }
 
-        public async Task<bool> validarTransaccion(TransaccionDtoAgregar transaccionDto, int cuitOrigen, int cuitDestino, string cbuOrigen, string cbuDestino)
-        {
+        public async Task<bool> validarTransaccion(ref Transaccion transaccion, int cuitOrigen, int cuitDestino, string cbuOrigen, string cbuDestino)
+        {                                       // transaccion va por referencia para poder cambiar su estado
             //estrategia: 
             // -recibir cbu Origen y destino, Obtener bancos de los cbu y verificar existencia en nuestra bd
             // -recibir cuit origen y destino, enviarselos al renaper para verificar.
@@ -79,8 +79,34 @@ namespace Service.Metodos
                 var bancoOrigen = await _bancoService.buscarBanco(int.Parse(numeroBancoOrigen));
                 var bancoDestino = await _bancoService.buscarBanco(int.Parse(numeroBancoDestino));
 
-                if (bancoOrigen == null || bancoDestino == null) // si no existen en mi bd rechazo la transaccion
+                // si algun banco no existe, rechazo la transaccion y seteo el estado correspondiente explicando en la descripcion que banco fue rechazado
+                if (bancoOrigen == null 
                 {
+                    transaccion.IdValidacionEstado = ; // poner el numero de estado correspondiente y en la descripcion aclarar que el banco origen no pasó la validación
+                    
+                    var registroEstado = new Registroestado(); // creo registro y le seteo la info de transaccion
+                    registroEstado.FechaHora = DateTime.Now();  // !!! Al modelo registro Estado hay que cambiarle el tipo a DateTime
+                    registroEstado.IdTransaccion = transaccion.Id;
+                    registroEstado.IdValidadoEstado = transaccion.IdValidadoEstado;
+                    registroEstado.IdAceptadoEstado = transaccion.IdAceptadoEstado;
+                     
+                    // Agrego el registro  al  contexto de la base de datos
+                    _context.Registroestado.Add(registroEstado);
+
+                    // Guardo los cambios en la base de datos
+                    await _context.SaveChangesAsync();
+
+                    // Para que no quede tanto chorizo de codigo al registrar los estados, hay que crear un RegistroEstado Service
+                    // y crear ahi dentro una funcion que reciba la transaccion como parametro, y que asigne los valores de la transaccion al registro ( o sea hacer un cut paste del seteo que va de la linea 87 a la 91)
+                    // y que la funcion devuelva el registroEstado ya seteado, para desde acá solamente guardarlo a la bd
+                    // asi nos ahorramos dejamos el codigo transaccionService más limpio cada vez que se cambien los estados
+                    // Una vez hecha la función falta invocarla cada vez que se cambie un estado y guardarla.
+
+                    return false;
+                }
+                if ( bancoDestino == null)
+                {
+                    transaccion.IdValidacionEstado = ; // poner el numero de estado correspondiente y en la descripcion aclarar que el banco destino no pasó la validación
                     return false;
                 }
 
@@ -88,8 +114,14 @@ namespace Service.Metodos
                 bool esValidocuitOrigen = true;// await _httpClient.GetAsync(apiUrl/);
                 bool esValidocuitDestino = true;//await _httpClient.GetAsync(apiUrl/);
 
-                if (esValidocuitOrigen == false || esValidocuitDestino == false)
+                if (esValidocuitOrigen == false 
                 {
+                    transaccion.IdValidacionEstado = ; // poner el numero de estado correspondiente y en la descripcion aclarar que el cuit origen no pasó la validación
+                    return false;
+                }
+                if(esValidocuitDestino == false)
+                {
+                    transaccion.IdValidacionEstado = ; // poner el numero de estado correspondiente y en la descripcion aclarar que el cuit destino no pasó la validación
                     return false;
                 }
 
@@ -121,12 +153,8 @@ namespace Service.Metodos
                 // validacionEstados: (1: validando bancos, 2: validando cuit, 3: validacion exitosa, 4: validacion rechazada)
                 transaccion.IdValidacionEstado = 1; // seteo estado validando bancos
 
-                // problema: tenemos que cambiar el estado de la transacción dentro de la funcion validarTransaccion y no dentro de esta funcion
-                // hay que pasar de alguna manera el objeto transacción a la funcion validar para poder cambiarle el estado a la transaccion y se pueda ver el proceso de que 
-                // cosas se estan validando
-
-                bool validacion = await validarTransaccion(transaccionDto, cuitOrigen, cuitDestino, cbuOrigen, cbuDestino);
-
+                bool validacion = await validarTransaccion(ref transaccion, cuitOrigen, cuitDestino, cbuOrigen, cbuDestino);
+                                                        // transaccion va por referencia para poder cambiar su estado
                 if (validacion == true)
                 {
                     transaccion.IdValidacionEstado = 3; // seteo transaccion como aceptada
@@ -176,8 +204,6 @@ namespace Service.Metodos
                 {
                     // si no cumple la validación seteo estado rechazada 
                     transaccion.IdValidacionEstado = 3;
-
-                    // Falta guardar la transaccion rechazada, acá solo le cambie el estado, pero hay que guardarle la info y agregarla a la bd
                     transaccion.Monto = transaccionDto.Monto;
                     transaccion.FechaHora = transaccionDto.FechaHora;
 
