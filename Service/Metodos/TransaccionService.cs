@@ -80,7 +80,7 @@ namespace Service.Metodos
                 var bancoDestino = await _bancoService.buscarBanco(int.Parse(numeroBancoDestino));
 
                 // si algun banco no existe, rechazo la transaccion y seteo el estado correspondiente explicando en la descripcion que banco fue rechazado
-                if (bancoOrigen == null 
+                if (bancoOrigen == null )
                 {
                     transaccion.IdValidacionEstado = ; // poner el numero de estado correspondiente y en la descripcion aclarar que el banco origen no pasó la validación
                     
@@ -114,7 +114,7 @@ namespace Service.Metodos
                 bool esValidocuitOrigen = true;// await _httpClient.GetAsync(apiUrl/);
                 bool esValidocuitDestino = true;//await _httpClient.GetAsync(apiUrl/);
 
-                if (esValidocuitOrigen == false 
+                if (esValidocuitOrigen == false )
                 {
                     transaccion.IdValidacionEstado = ; // poner el numero de estado correspondiente y en la descripcion aclarar que el cuit origen no pasó la validación
                     return false;
