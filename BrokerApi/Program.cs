@@ -2,6 +2,7 @@ using Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Service.Interface;
+using Service.Metodos;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +22,7 @@ options.UseNpgsql(builder.Configuration.GetConnectionString("BrokerConnection"))
 builder.Services.AddScoped<Service.Interface.IBancoService, Service.Metodos.BancoService>();
 builder.Services.AddScoped<ICuentaService, Service.Metodos.CuentaService>();
 builder.Services.AddScoped<ITransaccionService, Service.Metodos.TransaccionService>();
+builder.Services.AddScoped<IRegistroEstadoService,RegistroEstadoService>();
 
 //Coneccion con el Front
 var proveedor = builder.Services.BuildServiceProvider();

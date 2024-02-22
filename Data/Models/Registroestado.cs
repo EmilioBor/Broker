@@ -10,7 +10,7 @@ public partial class Registroestado
 {
     public int Id { get; set; }
 
-    public DateOnly FechaHora { get; set; }
+    public DateTime FechaHora { get; set; }
 
     public int IdValidadoEstado { get; set; }
 

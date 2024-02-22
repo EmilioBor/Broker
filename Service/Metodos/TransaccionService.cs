@@ -17,19 +17,15 @@ namespace Service.Metodos
         //private readonly IMapper _mapper;
         private readonly ICuentaService _cuentaService;
         private readonly IBancoService _bancoService;
+        private readonly IRegistroEstadoService _registroEstadoService;
 
 
-
-        public TransaccionService(IConfiguration configuration, BrokerDBContext context, ICuentaService cuentaService, IBancoService bancoService)
+        public TransaccionService(BrokerDBContext context, ICuentaService cuentaService, IBancoService bancoService, IRegistroEstadoService registroEstadoService)
         {
             _context = context;
-
-            
-
             _cuentaService = cuentaService;
-
             _bancoService = bancoService;
-
+            _registroEstadoService = registroEstadoService;
         }
         public async Task<int> RetornarIdTipo(string tipo)
         {
@@ -64,12 +60,12 @@ namespace Service.Metodos
             return transaccionesOrdenadas;
         }
 
-        public async Task<bool> validarTransaccion(ref Transaccion transaccion, int cuitOrigen, int cuitDestino, string cbuOrigen, string cbuDestino)
-        {                                       // transaccion va por referencia para poder cambiar su estado
+        public async Task<bool> validarTransaccion(Transaccion transaccion, int cuitOrigen, int cuitDestino, string cbuOrigen, string cbuDestino)
+        {                                       // transaccion va por referencia para poder cambiar su estado(Los metodos asincronicos no pueden tener parametros ref , in ni out)
             //estrategia: 
-            // -recibir cbu Origen y destino, Obtener bancos de los cbu y verificar existencia en nuestra bd
-            // -recibir cuit origen y destino, enviarselos al renaper para verificar.
-            // -retorno true si cumple ambas verificaciones, de lo contrario retorno false
+            // -recibir cbu Origen y Destino, Obtener bancos de los cbu y verificar existencia en nuestra bd
+            // -recibir cuit Origen y Destino, enviarselos al renaper para verificar.
+            // -retorno TRUE si cumple AMBAS verificaciones, de lo CONTRARIO retorno FALSE
             try
             {
                 string numeroBancoOrigen = cbuOrigen.Substring(0, 9);
@@ -82,12 +78,13 @@ namespace Service.Metodos
                 // si algun banco no existe, rechazo la transaccion y seteo el estado correspondiente explicando en la descripcion que banco fue rechazado
                 if (bancoOrigen == null )
                 {
-                    transaccion.IdValidacionEstado = ; // poner el numero de estado correspondiente y en la descripcion aclarar que el banco origen no pasó la validación
+                    //transaccion.IdValidacionEstado = 7; // poner el numero de estado correspondiente y en la descripcion aclarar que el banco origen no pasó la validación
                     
+
                     var registroEstado = new Registroestado(); // creo registro y le seteo la info de transaccion
-                    registroEstado.FechaHora = DateTime.Now();  // !!! Al modelo registro Estado hay que cambiarle el tipo a DateTime
+                    registroEstado.FechaHora = DateTime.Now;  // !!! Al modelo registro Estado hay que cambiarle el tipo a DateTime
                     registroEstado.IdTransaccion = transaccion.Id;
-                    registroEstado.IdValidadoEstado = transaccion.IdValidadoEstado;
+                    registroEstado.IdValidadoEstado = transaccion.IdValidacionEstado = 7;
                     registroEstado.IdAceptadoEstado = transaccion.IdAceptadoEstado;
                      
                     // Agrego el registro  al  contexto de la base de datos
@@ -102,11 +99,14 @@ namespace Service.Metodos
                     // asi nos ahorramos dejamos el codigo transaccionService más limpio cada vez que se cambien los estados
                     // Una vez hecha la función falta invocarla cada vez que se cambie un estado y guardarla.
 
+                    //var validacion = await _registroEstadoService.FuncionDeTransaccion(transaccion);
+
+                    //----------------------------------------------------------------------------------------------------------------
                     return false;
                 }
                 if ( bancoDestino == null)
                 {
-                    transaccion.IdValidacionEstado = ; // poner el numero de estado correspondiente y en la descripcion aclarar que el banco destino no pasó la validación
+                    transaccion.IdValidacionEstado = 8; // poner el numero de estado correspondiente y en la descripcion aclarar que el banco destino no pasó la validación
                     return false;
                 }
 
@@ -116,12 +116,12 @@ namespace Service.Metodos
 
                 if (esValidocuitOrigen == false )
                 {
-                    transaccion.IdValidacionEstado = ; // poner el numero de estado correspondiente y en la descripcion aclarar que el cuit origen no pasó la validación
+                    transaccion.IdValidacionEstado = 6; // poner el numero de estado correspondiente y en la descripcion aclarar que el cuit origen no pasó la validación
                     return false;
                 }
                 if(esValidocuitDestino == false)
                 {
-                    transaccion.IdValidacionEstado = ; // poner el numero de estado correspondiente y en la descripcion aclarar que el cuit destino no pasó la validación
+                    transaccion.IdValidacionEstado = 5; // poner el numero de estado correspondiente y en la descripcion aclarar que el cuit destino no pasó la validación
                     return false;
                 }
 
@@ -153,7 +153,7 @@ namespace Service.Metodos
                 // validacionEstados: (1: validando bancos, 2: validando cuit, 3: validacion exitosa, 4: validacion rechazada)
                 transaccion.IdValidacionEstado = 1; // seteo estado validando bancos
 
-                bool validacion = await validarTransaccion(ref transaccion, cuitOrigen, cuitDestino, cbuOrigen, cbuDestino);
+                bool validacion = await validarTransaccion(transaccion, cuitOrigen, cuitDestino, cbuOrigen, cbuDestino);
                                                         // transaccion va por referencia para poder cambiar su estado
                 if (validacion == true)
                 {
