@@ -121,7 +121,7 @@ namespace Service.Metodos
             }
         }
 
-        public async Task<bool> agregarTransaccion(TransaccionDtoAgregar transaccionDto, int cuitOrigen, int cuitDestino, string cbuOrigen, string cbuDestino)
+        public async Task<bool> agregarTransaccion(TransaccionDtoAgregar transaccionDto)
         {
             // Estrategia:
             // valido la información de la transacción
@@ -135,7 +135,13 @@ namespace Service.Metodos
                     return false;
                 }
 
+                int cuitOrigen= transaccionDto.cuil_origen;
+                int cuitDestino=transaccionDto.cuil_destino;
+                string cbuOrigen=transaccionDto.cbu_origen;
+                string cbuDestino=transaccionDto.cbuDestino;
+
                 var transaccion = new Transaccion();// creo Transaccion
+                transaccion.FechaHora = DateTime.Now; // le asigno la fecha en la que ingreso a nuestro sistema
 
                 // validacionEstados: (1: validando bancos, 2: validando cuit, 3: validacion exitosa, 4: validacion rechazada)
                 transaccion.IdValidacionEstado = 1; // seteo estado validando bancos
@@ -170,7 +176,6 @@ namespace Service.Metodos
                     }
 
                     transaccion.Monto = transaccionDto.Monto;
-                    transaccion.FechaHora = transaccionDto.FechaHora;
                     var tipo = transaccionDto.Tipo;
                     var id = await RetornarIdTipo(tipo);
                     transaccion.IdTipo = id;
@@ -191,9 +196,8 @@ namespace Service.Metodos
                 }
                 else
                 {
-                    // si no cumple la validación guardo sus datps y la seteo estado rechazada 
+                    // si no cumple la validación guardo sus datos y la seteo estado rechazada 
                     transaccion.Monto = transaccionDto.Monto;
-                    transaccion.FechaHora = transaccionDto.FechaHora;
 
                     // Realiza una consulta a la base de datos para buscar Tipo por nombre
                     var tipo = transaccionDto.Tipo;
