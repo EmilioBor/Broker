@@ -15,11 +15,26 @@ namespace Service.Metodos
         {
             _context = context;
         }
-        public async Task FuncionDeTransaccion(Transaccion transaccion)
+        public async Task<bool> AgregarRegistroEstado(Transaccion transaccion)
         {
             if (transaccion == null)
             {
-                return;
+                return false;
+            }
+            else
+            {
+                var registroEstado = new Registroestado(); // creo registro y le seteo la info de transaccion
+                registroEstado.FechaHora = DateTime.Now;  // !!! Al modelo registro Estado hay que cambiarle el tipo a DateTime
+                registroEstado.IdTransaccion = transaccion.Id;
+                registroEstado.IdValidadoEstado = transaccion.IdValidacionEstado = 7;
+                registroEstado.IdAceptadoEstado = transaccion.IdAceptadoEstado;
+
+                // Agrego el registro al  contexto de la base de datos
+                _context.Registroestado.Add(transaccion);
+
+                await _context.SaveChangesAsync();
+
+                return true;
             }
         }
     }

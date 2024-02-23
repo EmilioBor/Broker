@@ -4,6 +4,6 @@ namespace Service.Interface
 {
     public interface IRegistroEstadoService
     {
-        Task FuncionDeTransaccion(Transaccion transaccion);
+        Task<bool> AgregarRegistroEstado(Transaccion transaccion);
     }
 }
