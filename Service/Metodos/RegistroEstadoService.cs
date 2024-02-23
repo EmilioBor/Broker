@@ -30,7 +30,7 @@ namespace Service.Metodos
                 registroEstado.IdAceptadoEstado = transaccion.IdAceptadoEstado;
 
                 // Agrego el registro al  contexto de la base de datos
-                _context.Registroestado.Add(transaccion);
+                _context.Registroestado.Add(registroEstado);
 
                 await _context.SaveChangesAsync();
 

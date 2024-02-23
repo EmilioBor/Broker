@@ -32,11 +32,7 @@ namespace Service.Metodos
             var numero = await _context.Tipo
                 .Where(t => t.Descripcion == tipo)
                 .FirstOrDefaultAsync();
-
             return numero.Id;
-
-
-
         }
 
         public async Task<IEnumerable<Transaccion>> listarTransacciones()
@@ -137,8 +133,8 @@ namespace Service.Metodos
 
                 int cuitOrigen= transaccionDto.cuil_origen;
                 int cuitDestino=transaccionDto.cuil_destino;
-                string cbuOrigen=transaccionDto.cbu_origen;
-                string cbuDestino=transaccionDto.cbuDestino;
+                string? cbuOrigen = transaccionDto.cbu_origen;
+                string? cbuDestino=transaccionDto.cbu_destino;
 
                 var transaccion = new Transaccion();// creo Transaccion
                 transaccion.FechaHora = DateTime.Now; // le asigno la fecha en la que ingreso a nuestro sistema

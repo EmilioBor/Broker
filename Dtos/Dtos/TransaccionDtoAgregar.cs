@@ -15,11 +15,11 @@ namespace Broker.Dtos
 
         
 
-        public string cbu_origen { get; set; }
+        public string? cbu_origen { get; set; }
         public float Monto { get; set; }
-        public string cbu_destino { get; set; }
+        public string? cbu_destino { get; set; }
         public string? Tipo { get; set; }
-        public string numero { get; set; }
+        public string? numero { get; set; }
         public int cuil_origen { get; set; }
         public int cuil_destino { get; set; }
 

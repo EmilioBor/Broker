@@ -24,18 +24,14 @@ builder.Services.AddScoped<ICuentaService, Service.Metodos.CuentaService>();
 builder.Services.AddScoped<ITransaccionService, Service.Metodos.TransaccionService>();
 builder.Services.AddScoped<IRegistroEstadoService,RegistroEstadoService>();
 
-//Coneccion con el Front
-var proveedor = builder.Services.BuildServiceProvider();
-var configuracion = proveedor.GetRequiredService<IConfiguration>();
 
-builder.Services.AddCors(opciones =>
+builder.Services.AddCors(options =>
 {
-    var frontendURL = configuracion.GetValue<string>("frontend_url"); //acceso a mi app de react
-
-    opciones.AddDefaultPolicy(builder =>
-    {
-        builder.WithOrigins(frontendURL).AllowAnyMethod().AllowAnyHeader();
-    });
+    options.AddPolicy("AllowAllOrigins",
+    policy => policy
+        .AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader());
 
 });
 
@@ -47,6 +43,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+    //------
+app.UseCors("AllowAllOrigins");
 
 app.UseHttpsRedirection();
 

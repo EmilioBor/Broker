@@ -12,7 +12,7 @@ public partial class Transaccion
 
     public float Monto { get; set; }
 
-    public DateOnly FechaHora { get; set; }
+    public DateTime FechaHora { get; set; }
 
     public int IdTipo { get; set; }
 
@@ -25,16 +25,16 @@ public partial class Transaccion
     public int IdCuentaDestino { get; set; }
 
     public int Numero { get; set; }
-    [JsonIgnore]
+    
     public virtual Aceptadoestado IdAceptadoEstadoNavigation { get; set; }
-    [JsonIgnore]
+    
     public virtual Cuenta IdCuentaDestinoNavigation { get; set; }
-    [JsonIgnore]
+    
     public virtual Cuenta IdCuentaOrigenNavigation { get; set; }
-    [JsonIgnore]
+    
     public virtual Tipo IdTipoNavigation { get; set; }
-    [JsonIgnore]
+    
     public virtual Validacionestado IdValidacionEstadoNavigation { get; set; }
-    [JsonIgnore]
+    
     public virtual ICollection<Registroestado> Registroestado { get; set; } = new List<Registroestado>();
 }
