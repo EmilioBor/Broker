@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Data.Models;
 
-public partial class BrokerDBContext : DbContext
+public partial class ApiDb : DbContext
 {
-    public BrokerDBContext(DbContextOptions<BrokerDBContext> options)
+    public ApiDb(DbContextOptions<ApiDb> options)
         : base(options)
     {
     }

@@ -10,8 +10,8 @@ namespace Service.Metodos
 {
     public class RegistroEstadoService : IRegistroEstadoService
     {
-        private readonly BrokerDBContext _context;
-        public RegistroEstadoService(BrokerDBContext context)
+        private readonly ApiDb _context;
+        public RegistroEstadoService(ApiDb context)
         {
             _context = context;
         }
