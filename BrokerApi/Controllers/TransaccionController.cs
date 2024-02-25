@@ -22,6 +22,13 @@ namespace Broker.Controllers
 
             return transacciones;
         }
+        [HttpGet("listarTransaccionesPorBancoYFecha")] // Listar transacciones banco y fecha
+        public async Task<IEnumerable<Transaccion>> listarTransaccionesPorBancoYFecha(int numero, DateTime fecha)
+        {
+            var transacciones = await _transaccionService.listarTransaccionesPorBancoYFecha(numero,fecha);
+
+            return transacciones;
+        }
 
         [HttpGet("listarPorFecha")] // Listar transacciones por fecha
         public async Task<IEnumerable<Transaccion>> listarTransaccionesPorFecha()

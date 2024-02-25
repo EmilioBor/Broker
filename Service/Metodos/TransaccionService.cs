@@ -43,6 +43,22 @@ namespace Service.Metodos
             // Devuelve la lista de transacciones
             return transacciones;
         }
+        public async Task<IEnumerable<Transaccion>> listarTransaccionesPorBancoYFecha(int numeroBanco, DateTime fecha)
+        {   // busco el id del banco a listar las transacciones     
+            int idBanco = await _bancoService.getIdBanco(numeroBanco);
+
+            var transacciones = await _context.Transaccion
+
+            // chequeo que el banco asociado a la cuenta destino u origen hayan participado de la transaccion para listarla
+            // chequeo que coincida la fecha para listarla
+            .Where(t => (t.IdCuentaOrigenNavigation.IdBanco == idBanco || t.IdCuentaDestinoNavigation.IdBanco == idBanco) && t.FechaHora.Date == fecha.Date)
+            .OrderBy(t => t.FechaHora)
+            .ToListAsync();
+
+            // Devuelve la lista de transacciones filtradas
+            return transacciones;
+        }
+
 
         public async Task<IEnumerable<Transaccion>> listarTransaccionesPorFecha()
         {
