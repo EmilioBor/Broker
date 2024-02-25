@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 using Microsoft.Extensions.Configuration;
 using Broker.Dtos;
-
+using System;
 using Service.Interface;
 using Data.Models;
 
@@ -133,7 +133,7 @@ namespace Service.Metodos
             }
         }
 
-        public async Task<bool> agregarTransaccion(TransaccionDtoAgregar transaccionDto)
+        public async Task<string> agregarTransaccion(TransaccionDtoAgregar transaccionDto)
         {
             // Estrategia:
             // valido la información de la transacción
@@ -154,7 +154,7 @@ namespace Service.Metodos
 
                 var transaccion = new Transaccion();// creo Transaccion
                 transaccion.FechaHora = DateTime.Now; // le asigno la fecha en la que ingreso a nuestro sistema
-
+                transaccion.Numero = Guid.NewGuid().ToString(); // le creo un numero unico
                 // validacionEstados: (1: validando bancos, 2: validando cuit, 3: validacion exitosa, 4: validacion rechazada)
                 transaccion.IdValidacionEstado = 1; // seteo estado validando bancos
                 await _registroEstadoService.AgregarRegistroEstado(transaccion);
@@ -201,7 +201,7 @@ namespace Service.Metodos
 
                     // envio numero de transacción a banco (lo debo retornar en la funcion o lo envio directamente a un endpoint del banco ?)
 
-                    return true;
+                    return transaccion.Numero;
 
 
 
@@ -225,7 +225,7 @@ namespace Service.Metodos
 
                     // Guardo los cambios en la base de datos
                     await _context.SaveChangesAsync();
-                    return false;
+                    return transaccion.Numero;
                     //------------------------------------------------------------------------------------------------------------------------------
                 }
 
