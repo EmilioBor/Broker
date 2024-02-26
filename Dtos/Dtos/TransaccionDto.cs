@@ -8,7 +8,7 @@ namespace Broker.Dtos
     public class TransaccionDto
     {
         //public DateTime fechaHora { get; set; }
-        //public long numero { get; set; }
+        //public string numero { get; set; }
         //public string? tipo { get; set; }
         //public string? validacionEstado { get; set; }
         //public string? aceptadoEstado { get; set; }

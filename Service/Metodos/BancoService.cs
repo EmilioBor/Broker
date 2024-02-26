@@ -11,10 +11,10 @@ namespace Service.Metodos
 {
     public class BancoService : IBancoService
     {
-        private readonly BrokerDBContext _context;
+        private readonly ApiDb _context;
        
 
-        public BancoService(IConfiguration configuration, BrokerDBContext context)
+        public BancoService(IConfiguration configuration, ApiDb context)
         {
             _context = context;
 
