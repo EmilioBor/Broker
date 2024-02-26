@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 using Microsoft.Extensions.Configuration;
 using Broker.Dtos;
-
+using System;
 using Service.Interface;
 using Data.Models;
 
@@ -43,7 +43,21 @@ namespace Service.Metodos
             // Devuelve la lista de transacciones
             return transacciones;
         }
+        public async Task<IEnumerable<Transaccion>> listarTransaccionesPorBancoYFecha(int numeroBanco, DateTime fecha)
+        {   // busco el id del banco a listar las transacciones     
+            int idBanco = await _bancoService.getIdBanco(numeroBanco);
 
+            var transacciones = await _context.Transaccion
+
+            // chequeo que el banco asociado a la cuenta destino u origen hayan participado de la transaccion para listarla
+            // chequeo que coincida la fecha para listarla
+            .Where(t => (t.IdCuentaOrigenNavigation.IdBanco == idBanco || t.IdCuentaDestinoNavigation.IdBanco == idBanco) && t.FechaHora.Date == fecha.Date)
+            .OrderBy(t => t.FechaHora)
+            .ToListAsync();
+
+            // Devuelve la lista de transacciones filtradas
+            return transacciones;
+        }
         public async Task<IEnumerable<Transaccion>> listarTransaccionesPorFecha()
         {
             // Realiza una consulta a la base de datos para devolver todas las transacciones
@@ -117,7 +131,7 @@ namespace Service.Metodos
             }
         }
 
-        public async Task<bool> agregarTransaccion(TransaccionDtoAgregar transaccionDto)
+        public async Task<string> agregarTransaccion(TransaccionDtoAgregar transaccionDto)
         {
             // Estrategia:
             // valido la información de la transacción
@@ -128,7 +142,7 @@ namespace Service.Metodos
             {
                 if (transaccionDto == null)
                 {
-                    return false;
+                    return null;
                 }
 
                 int cuitOrigen= transaccionDto.cuil_origen;
@@ -138,7 +152,7 @@ namespace Service.Metodos
 
                 var transaccion = new Transaccion();// creo Transaccion
                 transaccion.FechaHora = DateTime.Now; // le asigno la fecha en la que ingreso a nuestro sistema
-
+                transaccion.Numero = Guid.NewGuid().ToString(); //le creo un numero unico
                 // validacionEstados: (1: validando bancos, 2: validando cuit, 3: validacion exitosa, 4: validacion rechazada)
                 transaccion.IdValidacionEstado = 1; // seteo estado validando bancos
                 await _registroEstadoService.AgregarRegistroEstado(transaccion);
@@ -185,7 +199,7 @@ namespace Service.Metodos
 
                     // envio numero de transacción a banco (lo debo retornar en la funcion o lo envio directamente a un endpoint del banco ?)
 
-                    return true;
+                    return transaccion.Numero;
 
 
 
@@ -209,14 +223,14 @@ namespace Service.Metodos
 
                     // Guardo los cambios en la base de datos
                     await _context.SaveChangesAsync();
-                    return false;
+                    return transaccion.Numero;
                     //------------------------------------------------------------------------------------------------------------------------------
                 }
 
             }
             catch (Exception)
             {
-                return false;
+                return null;
             }
         }
     }

@@ -26,6 +26,7 @@ namespace Broker.Dtos
 
         public int IdTipo { get; set; }
 
+        public string? numero { get; set; }
         public int validacionEstado { get; set; }
 
         public int aceptadoEstado { get; set; }

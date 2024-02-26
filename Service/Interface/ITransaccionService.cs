@@ -9,6 +9,7 @@ namespace Service.Interface
         Task<IEnumerable<Transaccion>> listarTransacciones();
         Task<IEnumerable<Transaccion>> listarTransaccionesPorFecha();
         Task<bool> validarTransaccion(Transaccion transaccion, int cuitOrigen, int cuitDestino, string cbuOrigen, string cbuDestino);
-        Task<bool> agregarTransaccion(TransaccionDtoAgregar transaccionDto);
+        Task<string> agregarTransaccion(TransaccionDtoAgregar transaccionDto);
+        Task<IEnumerable<Transaccion>> listarTransaccionesPorBancoYFecha(int numeroBanco, DateTime fecha);
     }
 }

@@ -23,6 +23,14 @@ namespace Broker.Controllers
             return transacciones;
         }
 
+        [HttpGet("ListarTransaccionesPorBancoYFecha/{numero}/{fecha}")]
+        public async Task<IEnumerable<Transaccion>> listarTransaccionesPorBancoYFecha(int numero, DateTime fecha)    
+        {
+            var transacciones = await _transaccionService.listarTransaccionesPorBancoYFecha(numero, fecha);
+
+            return transacciones;
+        }
+
         [HttpGet("listarPorFecha")] // Listar transacciones por fecha
         public async Task<IEnumerable<Transaccion>> listarTransaccionesPorFecha()
         {
@@ -38,18 +46,21 @@ namespace Broker.Controllers
             {
                 return BadRequest("Los datos de la transaccion no son válidos.");
             }
+            string numero = await _transaccionService.agregarTransaccion(transaccion);
 
-            if (await _transaccionService.agregarTransaccion(transaccion))
-            {
+            //if (await _transaccionService.agregarTransaccion(transaccion))
+            //{
 
-                // Devuelvo una respuesta de éxito con el código de estado 201 (Created)
-                return CreatedAtAction("listarTransacciones", transaccion);
-            }
-            else
-            {
-                // Retorno respuesta de fallo del servidor con el codigo 500
-                return StatusCode(500, "Transaccion no creada, error interno del servidor.");
-            }
+            //    // Devuelvo una respuesta de éxito con el código de estado 201 (Created)
+            //    return CreatedAtAction("listarTransacciones", transaccion);
+            //}
+            //else
+            //{
+            //    // Retorno respuesta de fallo del servidor con el codigo 500
+            //    return StatusCode(500, "Transaccion no creada, error interno del servidor.");
+            //}
+            // Devuelvo una respuesta de éxito con el código de estado 201 (Created)
+            return StatusCode(201, transaccion.Numero);
         }
     }
 }

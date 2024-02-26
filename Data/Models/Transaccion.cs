@@ -24,7 +24,7 @@ public partial class Transaccion
 
     public int IdCuentaDestino { get; set; }
 
-    public int Numero { get; set; }
+    public string Numero { get; set; }
     
     public virtual Aceptadoestado IdAceptadoEstadoNavigation { get; set; }
     
