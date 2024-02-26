@@ -22,6 +22,8 @@ namespace Broker.Dtos
         public int cuil_origen { get; set; }
         public int cuil_destino { get; set; }
 
+        public int Numero { get; set; }
+
        // public int IdValidacionEstado { get; set; }
 
        // public int IdAceptadoEstado { get; set; }

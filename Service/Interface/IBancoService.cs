@@ -1,5 +1,6 @@
 ﻿using Broker.Dtos;
 using Data.Models;
+using Dtos.Response;
 
 namespace Service.Interface
 {
@@ -8,6 +9,6 @@ namespace Service.Interface
         Task<bool> agregarBanco(BancoDtoAgregar bancodto);
         Task<int> getIdBanco(int numero);
         Task<Banco?> buscarBanco(int numero);
-        Task<IEnumerable<Banco>> listarBancos();
+        Task<IEnumerable<BancoDtoOut>> listarBancos();
     }
 }

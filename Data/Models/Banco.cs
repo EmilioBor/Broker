@@ -16,7 +16,7 @@ public partial class Banco
 
     public int Numero { get; set; }
     
-    public virtual ICollection<Cuenta> NombreCuenta { get; set; } = new List<Cuenta>();
+    //public virtual ICollection<Cuenta> IdCuenta { get; set; } = new List<Cuenta>();
     
-    public virtual Bancoestado NombreEstadoBancoNavigation { get; set; }
+    public virtual Bancoestado IdEstadoBancoNavigation { get; set; }
 }

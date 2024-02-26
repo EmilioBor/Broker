@@ -5,6 +5,7 @@ using System.Diagnostics;
 using Broker.Dtos;
 using Service.Interface;
 using Data.Models;
+using Dtos.Response;
 
 namespace Broker.Controllers
 {
@@ -19,7 +20,7 @@ namespace Broker.Controllers
         }
 
         [HttpGet("listar")] // Listar Bancos
-        public async Task<IEnumerable<Banco>>listarBancos()
+        public async Task<IEnumerable<BancoDtoOut>>listarBancos()
         {
             var resultados = await _bancoService.listarBancos();
 

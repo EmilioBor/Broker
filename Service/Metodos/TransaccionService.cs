@@ -7,6 +7,7 @@ using Broker.Dtos;
 using System;
 using Service.Interface;
 using Data.Models;
+using Data;
 
 
 namespace Service.Metodos
@@ -51,7 +52,7 @@ namespace Service.Metodos
 
             // chequeo que el banco asociado a la cuenta destino u origen hayan participado de la transaccion para listarla
             // chequeo que coincida la fecha para listarla
-            .Where(t => (t.IdCuentaOrigenNavigation.IdBanco == idBanco || t.IdCuentaDestinoNavigation.IdBanco == idBanco) && t.FechaHora.Date == fecha.Date)
+            .Where(t => (t.NombreCuentaOrigenNavigation.IdBanco == idBanco || t.NombreCuentaDestinoNavigation.IdBanco == idBanco) && t.FechaHora.Date == fecha.Date)
             .OrderBy(t => t.FechaHora)
             .ToListAsync();
 
@@ -144,7 +145,7 @@ namespace Service.Metodos
             {
                 if (transaccionDto == null)
                 {
-                    return false;
+                    return null;
                 }
 
                 int cuitOrigen= transaccionDto.cuil_origen;
@@ -232,7 +233,7 @@ namespace Service.Metodos
             }
             catch (Exception)
             {
-                return false;
+                return null;
             }
         }
     }

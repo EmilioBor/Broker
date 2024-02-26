@@ -12,5 +12,5 @@ public partial class Bancoestado
 
     public string Descripcion { get; set; }
     
-    public virtual ICollection<Banco> NombreBanco { get; set; } = new List<Banco>();
+    //public virtual ICollection<Banco> NombreBanco { get; set; } = new List<Banco>();
 }

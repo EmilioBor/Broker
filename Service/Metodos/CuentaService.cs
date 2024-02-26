@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Broker.Dtos;
 using Data.Models;
 using Service.Interface;
+using Data;
 
 namespace Service.Metodos
 {

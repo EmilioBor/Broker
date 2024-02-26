@@ -14,7 +14,7 @@ public partial class Aceptadoestado
 
     public string Descripcion { get; set; }
     
-    public virtual ICollection<Registroestado> NombreRegistroestado { get; set; } = new List<Registroestado>();
+    //public virtual ICollection<Registroestado> IdRegistroestado { get; set; } = new List<Registroestado>();
     
-    public virtual ICollection<Transaccion> NombreTransaccion { get; set; } = new List<Transaccion>();
+   // public virtual ICollection<Transaccion> IdTransaccion { get; set; } = new List<Transaccion>();
 }

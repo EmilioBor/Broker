@@ -1,3 +1,4 @@
+using Data;
 using Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -13,6 +14,12 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//-------
+
+//var connecionString = builder.Configuration.GetConnectionString("BrokerConnection");
+//builder.Services.AddDbContext<ApiDb>(options =>
+//    options.UseNpgsql(connecionString));
 
 builder.Services.AddDbContext<ApiDb>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("BrokerConnection"),
