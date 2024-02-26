@@ -62,7 +62,7 @@ public partial class BrokerDBContext : DbContext
                 .IsRequired()
                 .HasColumnName("razonSocial");
 
-            entity.HasOne(d => d.IdEstadoBancoNavigation).WithMany(p => p.Banco)
+            entity.HasOne(d => d.IdEstadoBancoNavigation).WithMany(p => p.Descripcion)
                 .HasForeignKey(d => d.IdEstadoBanco)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("idEstadoBanco");
@@ -80,6 +80,9 @@ public partial class BrokerDBContext : DbContext
             entity.Property(e => e.Descripcion)
                 .IsRequired()
                 .HasColumnName("descripcion");
+            entity.Property(e => e.Nombre)
+                .IsRequired()
+                .HasColumnName("nombre");
         });
 
         modelBuilder.Entity<Cuenta>(entity =>
@@ -175,17 +178,17 @@ public partial class BrokerDBContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("idCuentaDestino");
 
-            entity.HasOne(d => d.IdCuentaOrigenNavigation).WithMany(p => p.TransaccionIdCuentaOrigenNavigation)
+            entity.HasOne(d => d.NombreCuentaOrigenNavigation).WithMany(p => p.TransaccionIdCuentaOrigenNavigation)
                 .HasForeignKey(d => d.IdCuentaOrigen)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("idCuentaOrigen");
 
-            entity.HasOne(d => d.IdTipoNavigation).WithMany(p => p.Transaccion)
+            entity.HasOne(d => d.NombreTipoNavigation).WithMany(p => p.Transaccion)
                 .HasForeignKey(d => d.IdTipo)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("idTipo");
 
-            entity.HasOne(d => d.IdValidacionEstadoNavigation).WithMany(p => p.Transaccion)
+            entity.HasOne(d => d.NombreValidacionEstadoNavigation).WithMany(p => p.Transaccion)
                 .HasForeignKey(d => d.IdValidacionEstado)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("idValidacionEstado");

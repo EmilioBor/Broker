@@ -15,8 +15,8 @@ public partial class Banco
     public int IdEstadoBanco { get; set; }
 
     public int Numero { get; set; }
-    [JsonIgnore]
-    public virtual ICollection<Cuenta> Cuenta { get; set; } = new List<Cuenta>();
-    [JsonIgnore]
+    
+    //public virtual ICollection<Cuenta> IdCuenta { get; set; } = new List<Cuenta>();
+    
     public virtual Bancoestado IdEstadoBancoNavigation { get; set; }
 }

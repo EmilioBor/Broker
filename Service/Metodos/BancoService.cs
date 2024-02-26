@@ -6,6 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Broker.Dtos;
 using Data.Models;
 using Service.Interface;
+using Data;
+using Dtos.Response;
 
 namespace Service.Metodos
 {
@@ -22,14 +24,14 @@ namespace Service.Metodos
 
         }
 
-        public async Task<IEnumerable<Banco>> listarBancos()
+        public async Task<IEnumerable<BancoDtoOut>> listarBancos()
         {
             // Realiza una consulta a la base de datos para devolver todos los Bancos
             var bancos = await _context.Banco
-                .Select(c => new Banco{
+                .Select(c => new BancoDtoOut{
                     Id = c.Id,
                     RazonSocial = c.RazonSocial,
-                    IdEstadoBanco = c.IdEstadoBanco,
+                    NombreEstadoBanco = c.IdEstadoBancoNavigation.Descripcion,
                     Numero = c.Numero
             }).ToListAsync();
             

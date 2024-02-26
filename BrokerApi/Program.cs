@@ -1,3 +1,4 @@
+using Data;
 using Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -14,10 +15,18 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<BrokerDBContext>(options =>
-options.UseNpgsql(builder.Configuration.GetConnectionString("BrokerConnection")));
+//-------
 
-//builder.Services.AddAutoMapper(typeof(BrokerDBContext));
+var connecionString = builder.Configuration.GetConnectionString("BrokerConnection");
+builder.Services.AddDbContext<BrokerDBContext>(options =>
+    options.UseNpgsql(connecionString));
+
+//builder.Services.AddDbContext<BrokerDBContext>(options =>
+//    options.UseNpgsql(builder.Configuration.GetConnectionString("BrokerConnection"),
+//        b => b.MigrationsAssembly("BrokerApi"))); // Especifica aquí tu ensamblado de migraciones
+
+
+//builder.Services.AddAutoMapper(typeof(ApiDb));
 
 builder.Services.AddScoped<Service.Interface.IBancoService, Service.Metodos.BancoService>();
 builder.Services.AddScoped<ICuentaService, Service.Metodos.CuentaService>();

@@ -7,6 +7,7 @@ using Broker.Dtos;
 using System;
 using Service.Interface;
 using Data.Models;
+using Data;
 
 
 namespace Service.Metodos
@@ -51,13 +52,15 @@ namespace Service.Metodos
 
             // chequeo que el banco asociado a la cuenta destino u origen hayan participado de la transaccion para listarla
             // chequeo que coincida la fecha para listarla
-            .Where(t => (t.IdCuentaOrigenNavigation.IdBanco == idBanco || t.IdCuentaDestinoNavigation.IdBanco == idBanco) && t.FechaHora.Date == fecha.Date)
+            .Where(t => (t.NombreCuentaOrigenNavigation.IdBanco == idBanco || t.NombreCuentaDestinoNavigation.IdBanco == idBanco) && t.FechaHora.Date == fecha.Date)
             .OrderBy(t => t.FechaHora)
             .ToListAsync();
 
             // Devuelve la lista de transacciones filtradas
             return transacciones;
         }
+
+
         public async Task<IEnumerable<Transaccion>> listarTransaccionesPorFecha()
         {
             // Realiza una consulta a la base de datos para devolver todas las transacciones
@@ -152,7 +155,7 @@ namespace Service.Metodos
 
                 var transaccion = new Transaccion();// creo Transaccion
                 transaccion.FechaHora = DateTime.Now; // le asigno la fecha en la que ingreso a nuestro sistema
-                transaccion.Numero = Guid.NewGuid().ToString(); //le creo un numero unico
+                transaccion.Numero = Guid.NewGuid().ToString(); // le creo un numero unico
                 // validacionEstados: (1: validando bancos, 2: validando cuit, 3: validacion exitosa, 4: validacion rechazada)
                 transaccion.IdValidacionEstado = 1; // seteo estado validando bancos
                 await _registroEstadoService.AgregarRegistroEstado(transaccion);
