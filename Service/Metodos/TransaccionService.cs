@@ -14,14 +14,14 @@ namespace Service.Metodos
 {
     public class TransaccionService : ITransaccionService
     {
-        private readonly ApiDb _context;
+        private readonly BrokerDBContext _context;
         //private readonly IMapper _mapper;
         private readonly ICuentaService _cuentaService;
         private readonly IBancoService _bancoService;
         private readonly IRegistroEstadoService _registroEstadoService;
 
 
-        public TransaccionService(ApiDb context, ICuentaService cuentaService, IBancoService bancoService, IRegistroEstadoService registroEstadoService)
+        public TransaccionService(BrokerDBContext context, ICuentaService cuentaService, IBancoService bancoService, IRegistroEstadoService registroEstadoService)
         {
             _context = context;
             _cuentaService = cuentaService;

@@ -12,12 +12,12 @@ namespace Service.Metodos
 {
     public class CuentaService : ICuentaService
     {
-        private readonly ApiDb _context;
+        private readonly BrokerDBContext _context;
 
         private readonly IBancoService _bancoService;
 
 
-        public CuentaService(ApiDb context, IBancoService bancoService)
+        public CuentaService(BrokerDBContext context, IBancoService bancoService)
         {
             _context = context;
             _bancoService = bancoService; //?? throw new ArgumentNullException(nameof(bancoService)); 

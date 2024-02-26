@@ -17,13 +17,13 @@ builder.Services.AddSwaggerGen();
 
 //-------
 
-//var connecionString = builder.Configuration.GetConnectionString("BrokerConnection");
-//builder.Services.AddDbContext<ApiDb>(options =>
-//    options.UseNpgsql(connecionString));
+var connecionString = builder.Configuration.GetConnectionString("BrokerConnection");
+builder.Services.AddDbContext<BrokerDBContext>(options =>
+    options.UseNpgsql(connecionString));
 
-builder.Services.AddDbContext<ApiDb>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("BrokerConnection"),
-        b => b.MigrationsAssembly("BrokerApi"))); // Especifica aquí tu ensamblado de migraciones
+//builder.Services.AddDbContext<BrokerDBContext>(options =>
+//    options.UseNpgsql(builder.Configuration.GetConnectionString("BrokerConnection"),
+//        b => b.MigrationsAssembly("BrokerApi"))); // Especifica aquí tu ensamblado de migraciones
 
 
 //builder.Services.AddAutoMapper(typeof(ApiDb));
