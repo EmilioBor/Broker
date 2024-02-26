@@ -6,7 +6,7 @@ namespace Service.Interface
 {
     public interface IBancoService
     {
-        Task<bool> agregarBanco(BancoDtoAgregar bancodto);
+        Task<bool> agregarBanco(BancoDtoAgregarIn bancodto);
         Task<int> getIdBanco(int numero);
         Task<Banco?> buscarBanco(int numero);
         Task<IEnumerable<BancoDtoOut>> listarBancos();

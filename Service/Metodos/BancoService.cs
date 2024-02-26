@@ -60,7 +60,7 @@ namespace Service.Metodos
             return banco.Id; // Devuelvo el banco
 
         }
-        public async Task<bool> agregarBanco(BancoDtoAgregar bancodto)
+        public async Task<bool> agregarBanco(BancoDtoAgregarIn bancodto)
         {
             try
             {

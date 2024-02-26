@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Broker.Dtos
 {
-    public class BancoDtoAgregar
+    public class BancoDtoAgregarIn
     {
         public string? razonSocial { get; set; }
         public int numero { get; set; }

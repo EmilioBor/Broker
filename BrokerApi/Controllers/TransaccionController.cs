@@ -39,7 +39,7 @@ namespace Broker.Controllers
         }
 
         [HttpPost] // agrega transaccion
-        public async Task<IActionResult> agregarTransaccion([FromBody] TransaccionDtoAgregar transaccion)
+        public async Task<IActionResult> agregarTransaccion([FromBody] TransaccionDtoAgregarIn transaccion)
         {
             if (transaccion == null)
             {

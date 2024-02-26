@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Broker.Dtos
 {
-    public class TransaccionDto
+    public class TransaccionDtoIn
     {
         //public DateTime fechaHora { get; set; }
         //public string numero { get; set; }

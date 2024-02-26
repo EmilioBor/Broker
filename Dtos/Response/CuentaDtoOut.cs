@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Broker.Dtos
 {
-    public class CuentaDto
+    public class CuentaDtoOut
     {
         public int id { get; set; }
         public long numero { get; set; }

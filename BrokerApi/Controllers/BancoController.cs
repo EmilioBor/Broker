@@ -28,8 +28,8 @@ namespace Broker.Controllers
         }
 
         [HttpPost] // agrega banco
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(BancoDtoAgregar))]
-        public async Task<IActionResult>agregarBanco([FromBody] BancoDtoAgregar banco)
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(BancoDtoAgregarIn))]
+        public async Task<IActionResult>agregarBanco([FromBody] BancoDtoAgregarIn banco)
         {
             if (banco == null)
             {

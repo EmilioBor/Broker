@@ -5,15 +5,10 @@ using System.Threading.Tasks;
 
 namespace Broker.Dtos
 {
-    public class TransaccionDtoAgregar
+    public class TransaccionDtoAgregarIn
     {
-        
-
-        
 
        // public DateOnly FechaHora { get; set; }
-
-        
 
         public string? cbu_origen { get; set; }
         public float Monto { get; set; }

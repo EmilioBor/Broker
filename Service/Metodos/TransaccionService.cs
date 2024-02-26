@@ -134,7 +134,7 @@ namespace Service.Metodos
             }
         }
 
-        public async Task<string> agregarTransaccion(TransaccionDtoAgregar transaccionDto)
+        public async Task<string> agregarTransaccion(TransaccionDtoAgregarIn transaccionDto)
         {
             // Estrategia:
             // valido la información de la transacción
