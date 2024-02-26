@@ -10,6 +10,8 @@ public partial class Bancoestado
 {
     public int Id { get; set; }
 
+    public string Nombre { get; set; }
+
     public string Descripcion { get; set; }
     
     //public virtual ICollection<Banco> NombreBanco { get; set; } = new List<Banco>();
