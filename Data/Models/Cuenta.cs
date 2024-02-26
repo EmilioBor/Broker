@@ -15,10 +15,10 @@ public partial class Cuenta
     public string Cbu { get; set; }
 
     public int IdBanco { get; set; }
-    [JsonIgnore]
-    public virtual Banco IdBancoNavigation { get; set; }
-    [JsonIgnore]
-    public virtual ICollection<Transaccion> TransaccionIdCuentaDestinoNavigation { get; set; } = new List<Transaccion>();
-    [JsonIgnore]
-    public virtual ICollection<Transaccion> TransaccionIdCuentaOrigenNavigation { get; set; } = new List<Transaccion>();
+    
+    public virtual Banco NombreBancoNavigation { get; set; }
+    
+    public virtual ICollection<Transaccion> NombreTransaccionIdCuentaDestinoNavigation { get; set; } = new List<Transaccion>();
+    
+    public virtual ICollection<Transaccion> NombreTransaccionIdCuentaOrigenNavigation { get; set; } = new List<Transaccion>();
 }

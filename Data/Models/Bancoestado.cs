@@ -11,6 +11,6 @@ public partial class Bancoestado
     public int Id { get; set; }
 
     public string Descripcion { get; set; }
-    [JsonIgnore]
-    public virtual ICollection<Banco> Banco { get; set; } = new List<Banco>();
+    
+    public virtual ICollection<Banco> NombreBanco { get; set; } = new List<Banco>();
 }

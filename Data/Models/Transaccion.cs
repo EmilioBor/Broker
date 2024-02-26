@@ -26,15 +26,15 @@ public partial class Transaccion
 
     public int Numero { get; set; }
     
-    public virtual Aceptadoestado IdAceptadoEstadoNavigation { get; set; }
+    public virtual Aceptadoestado NombreAceptadoEstadoNavigation { get; set; }
     
-    public virtual Cuenta IdCuentaDestinoNavigation { get; set; }
+    public virtual Cuenta NombreCuentaDestinoNavigation { get; set; }
     
-    public virtual Cuenta IdCuentaOrigenNavigation { get; set; }
+    public virtual Cuenta NombreCuentaOrigenNavigation { get; set; }
     
-    public virtual Tipo IdTipoNavigation { get; set; }
+    public virtual Tipo NombreTipoNavigation { get; set; }
     
-    public virtual Validacionestado IdValidacionEstadoNavigation { get; set; }
+    public virtual Validacionestado NombreValidacionEstadoNavigation { get; set; }
     
-    public virtual ICollection<Registroestado> Registroestado { get; set; } = new List<Registroestado>();
+    public virtual ICollection<Registroestado> NombreRegistroestado { get; set; } = new List<Registroestado>();
 }

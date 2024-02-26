@@ -22,14 +22,14 @@ namespace Service.Metodos
 
         }
 
-        public async Task<IEnumerable<Banco>> listarBancos()
+        public async Task<IEnumerable<BancoDto>> listarBancos()
         {
             // Realiza una consulta a la base de datos para devolver todos los Bancos
             var bancos = await _context.Banco
                 .Select(c => new Banco{
                     Id = c.Id,
                     RazonSocial = c.RazonSocial,
-                    IdEstadoBanco = c.IdEstadoBanco,
+                    NombreEstadoBancoNavigation = c.NombreEstadoBancoNavigation.Descripcion,
                     Numero = c.Numero
             }).ToListAsync();
             

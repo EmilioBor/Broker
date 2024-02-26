@@ -11,6 +11,5 @@ public partial class Tipo
     public int Id { get; set; }
 
     public string Descripcion { get; set; }
-    [JsonIgnore]
-    public virtual ICollection<Transaccion> Transaccion { get; set; } = new List<Transaccion>();
+    public virtual ICollection<Transaccion> NombreTransaccion { get; set; } = new List<Transaccion>();
 }
