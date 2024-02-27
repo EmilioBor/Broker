@@ -11,11 +11,8 @@ namespace Dtos.Response
         public int Id { get; set; }
 
         public DateTime FechaHora { get; set; }
-
-        public string? NombreValidadoEstado { get; set; }
-
-        public string? NombreAceptadoEstado { get; set; }
-
         public string? NombreTransaccion { get; set; }
+        public string? NombreValidadoEstado { get; set; }
+        public string? NombreAceptadoEstado { get; set; }
     }
 }

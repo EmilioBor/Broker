@@ -6,6 +6,6 @@ namespace Service.Interface
     public interface IRegistroEstadoService
     {
         Task<bool> AgregarRegistroEstado(Transaccion transaccion);
-        Task<IEnumerable<RegistroEstadoDtoOut>> listarRegistrosTransaccion(int numero);
+        Task<IEnumerable<RegistroEstadoDtoOut?>> listarRegistrosTransaccion(int numero);
     }
 }
