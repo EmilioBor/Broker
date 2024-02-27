@@ -2,7 +2,6 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace Data.Models;
 
@@ -13,8 +12,8 @@ public partial class Aceptadoestado
     public string Estado { get; set; }
 
     public string Descripcion { get; set; }
-    
-    //public virtual ICollection<Registroestado> IdRegistroestado { get; set; } = new List<Registroestado>();
-    
-   // public virtual ICollection<Transaccion> IdTransaccion { get; set; } = new List<Transaccion>();
+
+    public virtual ICollection<Registroestado> Registroestado { get; set; } = new List<Registroestado>();
+
+    public virtual ICollection<Transaccion> Transaccion { get; set; } = new List<Transaccion>();
 }

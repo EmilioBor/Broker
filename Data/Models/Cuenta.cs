@@ -2,7 +2,6 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace Data.Models;
 
@@ -15,10 +14,10 @@ public partial class Cuenta
     public string Cbu { get; set; }
 
     public int IdBanco { get; set; }
-    
-    public virtual Banco NombreBancoNavigation { get; set; }
-    
-    public virtual ICollection<Transaccion> NombreTransaccionIdCuentaDestinoNavigation { get; set; } = new List<Transaccion>();
-    
-    public virtual ICollection<Transaccion> NombreTransaccionIdCuentaOrigenNavigation { get; set; } = new List<Transaccion>();
+
+    public virtual Banco IdBancoNavigation { get; set; }
+
+    public virtual ICollection<Transaccion> TransaccionIdCuentaDestinoNavigation { get; set; } = new List<Transaccion>();
+
+    public virtual ICollection<Transaccion> TransaccionIdCuentaOrigenNavigation { get; set; } = new List<Transaccion>();
 }

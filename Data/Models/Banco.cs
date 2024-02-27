@@ -2,7 +2,6 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace Data.Models;
 
@@ -15,8 +14,8 @@ public partial class Banco
     public int IdEstadoBanco { get; set; }
 
     public int Numero { get; set; }
-    
-    //public virtual ICollection<Cuenta> IdCuenta { get; set; } = new List<Cuenta>();
-    
+
+    public virtual ICollection<Cuenta> Cuenta { get; set; } = new List<Cuenta>();
+
     public virtual Bancoestado IdEstadoBancoNavigation { get; set; }
 }

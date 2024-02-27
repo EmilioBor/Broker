@@ -2,7 +2,6 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace Data.Models;
 
@@ -11,5 +10,6 @@ public partial class Tipo
     public int Id { get; set; }
 
     public string Descripcion { get; set; }
-    //public virtual ICollection<Transaccion> NombreTransaccion { get; set; } = new List<Transaccion>();
+
+    public virtual ICollection<Transaccion> Transaccion { get; set; } = new List<Transaccion>();
 }

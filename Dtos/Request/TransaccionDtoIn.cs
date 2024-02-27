@@ -17,22 +17,31 @@ namespace Broker.Dtos
         //public string? cbuDestino { get; set; }
 
         ////
-        ///
-        
+        public int Id { get; set; }
 
         public float Monto { get; set; }
 
-        public DateOnly FechaHora { get; set; }
+        public DateTime FechaHora { get; set; }
 
         public int IdTipo { get; set; }
 
-        public int validacionEstado { get; set; }
+        public int IdValidacionEstado { get; set; }
 
-        public int aceptadoEstado { get; set; }
+        public int IdAceptadoEstado { get; set; }
+
+        public int IdCuentaOrigen { get; set; }
+
+        public int IdCuentaDestino { get; set; }
+
+        public string? Numero { get; set; }
+
+        ///
 
         public int cbuOrigen { get; set; }
 
         public int cbuDestino { get; set; }
+
+
 
     }
 }

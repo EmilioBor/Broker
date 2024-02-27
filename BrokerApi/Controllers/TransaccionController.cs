@@ -16,7 +16,7 @@ namespace Broker.Controllers
         }
 
         [HttpGet("listar")] // Listar transacciones
-        public async Task<IEnumerable<Transaccion>> listarTransacciones()
+        public async Task<IEnumerable<TransaccionDtoOut>> listarTransacciones()
         {
             var transacciones = await _transaccionService.listarTransacciones();
 

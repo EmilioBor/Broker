@@ -36,10 +36,21 @@ namespace Service.Metodos
             return numero.Id;
         }
 
-        public async Task<IEnumerable<Transaccion>> listarTransacciones()
+        public async Task<IEnumerable<TransaccionDtoOut>> listarTransacciones()
         {
             // Realiza una consulta a la base de datos para devolver todas las transacciones
-            var transacciones = await _context.Transaccion.ToListAsync();
+            var transacciones = await _context.Transaccion.Select(b => new TransaccionDtoOut
+            {
+                Id = b.Id,
+                Monto = b.Monto,
+                FechaHora = b.FechaHora,
+                NombreTipo = b.IdTipoNavigation.Descripcion,
+                NombreValidacionEstado = b.IdValidacionEstadoNavigation.Estado,
+                NombreAceptadoEstado = b.IdAceptadoEstadoNavigation.Estado,
+                NombreCuentaOrigen = b.IdCuentaOrigenNavigation.Cbu,
+                NombreCuentaDestino = b.IdCuentaDestinoNavigation.Cbu,
+                Numero = b.Numero
+            }).ToListAsync();
 
             // Devuelve la lista de transacciones
             return transacciones;
@@ -52,7 +63,7 @@ namespace Service.Metodos
 
             // chequeo que el banco asociado a la cuenta destino u origen hayan participado de la transaccion para listarla
             // chequeo que coincida la fecha para listarla
-            .Where(t => (t.NombreCuentaOrigenNavigation.IdBanco == idBanco || t.NombreCuentaDestinoNavigation.IdBanco == idBanco) && t.FechaHora.Date == fecha.Date)
+            .Where(t => (t.IdCuentaOrigenNavigation.IdBanco == idBanco || t.IdCuentaDestinoNavigation.IdBanco == idBanco) && t.FechaHora.Date == fecha.Date)
             .OrderBy(t => t.FechaHora)
             .ToListAsync();
 
