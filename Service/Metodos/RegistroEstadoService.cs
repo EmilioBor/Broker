@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Data;
 using Data.Models;
+using Dtos.Response;
 using Service.Interface;
 
 namespace Service.Metodos
@@ -37,6 +38,16 @@ namespace Service.Metodos
 
                 return true;
             }
+        }
+        public async Task<IEnumerable <RegistroEstadoDtoOut>> listarRegistrosTransaccion(int numero) 
+        {
+            var registro = await _context.Registroestado.Where(r => r.IdTransaccion == numero).Select(r => new RegistroEstadoDtoOut
+            {
+                Id = r.Id,
+                FechaHora = DateTime.Now,
+                NombreValidadoEstado = r.IdValidacionEstadoNavegation.Estado,
+            }).ToListAsync();
+            return registro;
         }
     }
 }
