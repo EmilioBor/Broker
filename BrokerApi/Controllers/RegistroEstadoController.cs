@@ -19,10 +19,10 @@ namespace BrokerApi.Controllers
             _registroEstadoService = registroEstadoService;
         }
 
-        [HttpGet("listarRegistrosPorTransaccion/{id}")] // Listar Registros por transaccion
-        public async Task<IEnumerable<RegistroEstadoDtoOut?>> listarRegistrosTransaccion(int id)
+        [HttpGet("listarRegistrosPorTransaccion/{numero}")] // Listar Registros por transaccion
+        public async Task<IEnumerable<RegistroEstadoDtoOut?>> listarRegistrosTransaccion(string numero)
         {
-            var resultados = await _registroEstadoService.listarRegistrosTransaccion(id);
+            var resultados = await _registroEstadoService.listarRegistrosTransaccion(numero);
 
             return resultados;
         }

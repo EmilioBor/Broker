@@ -60,32 +60,54 @@ namespace Service.Metodos
             return banco.Id; // Devuelvo el banco
 
         }
-        public async Task<bool> agregarBanco(BancoDtoAgregarIn bancodto)
+
+        public async Task<BancoDtoOut?> GetDtoById(int id)
         {
-            try
-            {
-                if (bancodto == null)
+            return await _context.Banco
+                .Where(n => n.Id == id)
+                .Select(n => new BancoDtoOut
                 {
-                    return false;
-                }
+                    Id = n.Id,
+                    RazonSocial = n.RazonSocial,
+                    NombreEstadoBanco = n.IdEstadoBancoNavigation.Nombre,
+                    Numero = n.Numero
+
+                }).SingleOrDefaultAsync();
+
+        }
+
+
+
+
+
+        public async Task<Banco> agregarBanco(BancoDtoIn bancodto)
+        {
+            //try
+            //{
+                //if (bancodto == null)
+                //{
+                //    return false;
+                //}
 
                 var banco = new Banco();
-                banco.RazonSocial = bancodto.razonSocial;
-                banco.IdEstadoBanco = 1; // seteo el estado ( 1 para inactivo, 2 para activo)
-                banco.Numero = bancodto.numero;
+                
+                banco.Id = bancodto.Id;
+                banco.RazonSocial = bancodto.RazonSocial;
+                banco.IdEstadoBanco = bancodto.IdEstadoBanco = 1; // seteo el estado ( 1 para inactivo, 2 para activo)
+                banco.Numero = bancodto.Numero;
 
                 // Agregar el Banco al contexto de la base de datos
                 _context.Banco.Add(banco);
 
                 // Guardar los cambios en la base de datos
                 await _context.SaveChangesAsync();
-
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            return banco;
+            //    return true;
+            //}
+            //catch (Exception)
+            //{
+            //    return false;
+            //}
 
 
         }

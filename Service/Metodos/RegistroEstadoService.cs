@@ -40,16 +40,18 @@ namespace Service.Metodos
                 return true;
             }
         }
-        public async Task<IEnumerable<RegistroEstadoDtoOut?>> listarRegistrosTransaccion(int numero) 
+        public async Task<IEnumerable<RegistroEstadoDtoOut?>> listarRegistrosTransaccion(string numero) 
         {
             var registro = await _context.Registroestado
-                .Where(r => r.Id == numero)
+                .Where(r => r.IdTransaccionNavigation.Numero == numero)
                 .Select(r => new RegistroEstadoDtoOut{
                     Id = r.Id,
                     FechaHora = DateTime.Now,
                     NombreTransaccion = r.IdTransaccionNavigation.Numero,
                     NombreValidadoEstado = r.IdValidadoEstadoNavigation.Estado,
-                    NombreAceptadoEstado = r.IdAceptadoEstadoNavigation.Descripcion
+                    NombreAceptadoEstado = r.IdAceptadoEstadoNavigation.Descripcion,
+                    
+                    
                 }).ToListAsync();
                 return registro;
         }

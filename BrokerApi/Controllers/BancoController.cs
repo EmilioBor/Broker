@@ -27,28 +27,48 @@ namespace Broker.Controllers
             return resultados;
         }
 
-        [HttpPost] // agrega banco
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(BancoDtoAgregarIn))]
-        public async Task<IActionResult>agregarBanco([FromBody] BancoDtoAgregarIn banco)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<BancoDtoOut>> GetById(int id)
         {
-            if (banco == null)
-            {
-                return BadRequest("Los datos del banco no son válidos.");
-            }
+            var banco = await _bancoService.GetDtoById(id);
 
-            if (await _bancoService.agregarBanco(banco))
-            {
+            if (banco is null)
+                return BadRequest();
 
-                // Devuelvo una respuesta de éxito con el código de estado 201 (Created)
-                return CreatedAtAction("listarBancos", banco);
-            }
-            else
-            {
-                // Retorno respuesta de fallo del servidor con el codigo 500
-                return StatusCode(500, "Banco no creado, error interno del servidor.");
-            }
-            //puede que ande
+            return banco;
         }
+
+        //AGREGAR
+        [HttpPost]
+        public async Task<IActionResult> Create(BancoDtoIn banco)
+        {
+            var newBanco = await _bancoService.agregarBanco(banco);
+
+
+            return CreatedAtAction(nameof(GetById), new { id = newBanco.Id }, newBanco);
+        }
+
+        //[HttpPost] // agrega banco
+        //public async Task<IActionResult>agregarBanco([FromBody] BancoDtoIn banco)
+        //{
+        //    if (banco == null)
+        //    {
+        //        return BadRequest("Los datos del banco no son válidos.");
+        //    }
+
+        //    if (await _bancoService.agregarBanco(banco) is not null)
+        //    {
+
+        //        // Devuelvo una respuesta de éxito con el código de estado 201 (Created)
+        //        return CreatedAtAction("listarBancos", banco);
+        //    }
+        //    else
+        //    {
+        //        // Retorno respuesta de fallo del servidor con el codigo 500
+        //        return StatusCode(500, "Banco no creado, error interno del servidor.");
+        //    }
+        //    //puede que ande
+        //}
 
     }
 }

@@ -55,7 +55,8 @@ public partial class BrokerDBContext : DbContext
             entity.ToTable("banco");
 
             entity.Property(e => e.Id)
-                .ValueGeneratedNever()
+                .UseIdentityAlwaysColumn()
+                .HasIdentityOptions(null, null, null, 99999L, null, null)
                 .HasColumnName("id");
             entity.Property(e => e.Numero).HasColumnName("numero");
             entity.Property(e => e.RazonSocial)
@@ -166,7 +167,9 @@ public partial class BrokerDBContext : DbContext
             entity.Property(e => e.IdTipo).HasColumnName("idTipo");
             entity.Property(e => e.IdValidacionEstado).HasColumnName("idValidacionEstado");
             entity.Property(e => e.Monto).HasColumnName("monto");
-            entity.Property(e => e.Numero).HasColumnName("numero");
+            entity.Property(e => e.Numero)
+                .IsRequired()
+                .HasColumnName("numero");
 
             entity.HasOne(d => d.IdAceptadoEstadoNavigation).WithMany(p => p.Transaccion)
                 .HasForeignKey(d => d.IdAceptadoEstado)
