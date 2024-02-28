@@ -8,6 +8,7 @@ using System;
 using Service.Interface;
 using Data.Models;
 using Data;
+using Dtos.Response;
 
 
 namespace Service.Metodos
@@ -55,6 +56,29 @@ namespace Service.Metodos
             // Devuelve la lista de transacciones
             return transacciones;
         }
+
+        public async Task<TransaccionDtoOut?> GetDtoById(string numero)
+        {
+            // Realiza una consulta a la base de datos para devolver todas las transacciones
+            var transaccion = await _context.Transaccion
+                .Where(b => b.Numero == numero)
+                .Select(b => new TransaccionDtoOut
+            {
+                Id = b.Id,
+                Monto = b.Monto,
+                FechaHora = b.FechaHora,
+                NombreTipo = b.IdTipoNavigation.Descripcion,
+                NombreValidacionEstado = b.IdValidacionEstadoNavigation.Estado,
+                NombreAceptadoEstado = b.IdAceptadoEstadoNavigation.Estado,
+                NombreCuentaOrigen = b.IdCuentaOrigenNavigation.Cbu,
+                NombreCuentaDestino = b.IdCuentaDestinoNavigation.Cbu,
+                Numero = b.Numero
+            }).SingleOrDefaultAsync();
+
+            // Devuelve la lista de transacciones
+            return transaccion;
+        }
+
         public async Task<IEnumerable<Transaccion>> listarTransaccionesPorBancoYFecha(int numeroBanco, DateTime fecha)
         {   // busco el id del banco a listar las transacciones     
             int idBanco = await _bancoService.getIdBanco(numeroBanco);
@@ -145,7 +169,7 @@ namespace Service.Metodos
             }
         }
 
-        public async Task<string> agregarTransaccion(TransaccionDtoAgregarIn transaccionDto)
+        public async Task<ConfirmacionEstadoDtoOut> agregarTransaccion(TransaccionDtoAgregarIn transaccionDto)
         {
             // Estrategia:
             // valido la información de la transacción
@@ -203,7 +227,10 @@ namespace Service.Metodos
                     var tipo = transaccionDto.Tipo;
                     var id = await RetornarIdTipo(tipo);
                     transaccion.IdTipo = id;
-                   
+
+                    transaccion.IdValidacionEstado = 14;
+                    await _registroEstadoService.AgregarRegistroEstado(transaccion);
+
 
                     // Agrego la transaccion al  contexto de la base de datos
                     _context.Transaccion.Add(transaccion);
@@ -212,8 +239,12 @@ namespace Service.Metodos
                     await _context.SaveChangesAsync();
 
                     // envio numero de transacción a banco (lo debo retornar en la funcion o lo envio directamente a un endpoint del banco ?)
+                    var confirmacion = new ConfirmacionEstadoDtoOut();
 
-                    return transaccion.Numero;
+                    confirmacion.estado = transaccion.IdValidacionEstadoNavigation.Estado;
+                    confirmacion.numero = transaccion.Numero;
+
+                    return confirmacion;
 
 
 
@@ -228,24 +259,51 @@ namespace Service.Metodos
                     var id = await RetornarIdTipo(tipo);
                     transaccion.IdTipo = id;
 
-                    transaccion.IdValidacionEstado = 3;
-                    await _registroEstadoService.AgregarRegistroEstado(transaccion);
-
-
+                    transaccion.IdValidacionEstado = 13;
                     // Agrego la transaccion al  contexto de la base de datos
                     _context.Transaccion.Add(transaccion);
+                    
+                    //Guardamos en registro
+                    await _registroEstadoService.AgregarRegistroEstado(transaccion);
+
+                    //Seteamos la confirmacion y devolvemos al banco
+                    var confirmacion = new ConfirmacionEstadoDtoOut();
+                    confirmacion.estado = transaccion.IdValidacionEstadoNavigation.Estado;
+                    confirmacion.numero = transaccion.Numero;
+
 
                     // Guardo los cambios en la base de datos
                     await _context.SaveChangesAsync();
-                    return transaccion.Numero;
+                    return confirmacion;
                     //------------------------------------------------------------------------------------------------------------------------------
                 }
+                
 
             }
             catch (Exception)
             {
                 return null;
             }
+        }
+        public async Task confirmacion(ConfirmacionEstadoDtoOut confirmacionEstado)
+        {
+
+
+            var transaccion = new TransaccionDtoOut(); 
+                
+            var buscar = GetDtoById(confirmacionEstado.numero);
+
+            if(buscar is not null)
+            {
+                transaccion.NombreAceptadoEstado = confirmacionEstado.estado;
+
+
+                await _context.SaveChangesAsync();
+                
+            }
+
+            
+
         }
     }
 }

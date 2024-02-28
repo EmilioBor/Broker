@@ -2,6 +2,7 @@
 using Broker.Dtos;
 using Data.Models;
 using Service.Interface;
+using Dtos.Response;
 
 namespace Broker.Controllers
 {
@@ -29,6 +30,12 @@ namespace Broker.Controllers
 
             return transacciones;
         }
+        [HttpGet("{numero}")]
+        public async Task<TransaccionDtoOut?> GetDtoById(string numero)
+        {
+            var transaccion = await _transaccionService.GetDtoById(numero);
+            return transaccion;
+        }
 
         [HttpGet("listarPorFecha")] // Listar transacciones por fecha
         public async Task<IEnumerable<Transaccion>> listarTransaccionesPorFecha()
@@ -45,11 +52,21 @@ namespace Broker.Controllers
             {
                 return BadRequest("Los datos de la transaccion no son válidos.");
             }
-            string numero = await _transaccionService.agregarTransaccion(transaccion);
+            var confirmacion = await _transaccionService.agregarTransaccion(transaccion);
 
             // Devuelvo una respuesta de éxito con el código de estado 201 (Created)
-            return StatusCode(201, transaccion.Numero);
+            return StatusCode(201, confirmacion);
            
+        }
+        [HttpPost("Confirmacion")]
+        public async Task<IActionResult> confirmacion(ConfirmacionEstadoDtoOut confirmacionEstado)
+        {
+            if (confirmacionEstado == null)
+            {
+                return BadRequest("Los datos de la transaccion no son validos.");
+            }
+            await  _transaccionService.confirmacion(confirmacionEstado);
+            return StatusCode(201);
         }
     }
 }

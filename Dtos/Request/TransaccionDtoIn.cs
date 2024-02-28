@@ -35,8 +35,6 @@ namespace Broker.Dtos
 
         public string? Numero { get; set; }
 
-        ///
-
         public int cbuOrigen { get; set; }
 
         public int cbuDestino { get; set; }
