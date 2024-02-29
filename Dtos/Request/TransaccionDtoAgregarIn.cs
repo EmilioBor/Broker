@@ -10,14 +10,13 @@ namespace Broker.Dtos
 
        // public DateOnly FechaHora { get; set; }
 
-        public string? cbu_origen { get; set; }
-        public float Monto { get; set; }
-        public string? cbu_destino { get; set; }
-        public string? Tipo { get; set; }
-        public int cuil_origen { get; set; }
-        public int cuil_destino { get; set; }
-
-        public int Numero { get; set; }
+        public string? origin_cbu { get; set; }
+        public float amount { get; set; }
+        public string? destination_cbu { get; set; }
+        public string? motive { get; set; }
+        public int origin_cuil { get; set; }
+        public int destination_cuil { get; set; }
+        //public int Numero { get; set; }
 
        // public int IdValidacionEstado { get; set; }
 

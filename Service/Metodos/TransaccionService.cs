@@ -206,10 +206,10 @@ namespace Service.Metodos
                     return null;
                 }
 
-                int cuitOrigen= transaccionDto.cuil_origen;
-                int cuitDestino=transaccionDto.cuil_destino;
-                string? cbuOrigen = transaccionDto.cbu_origen;
-                string? cbuDestino=transaccionDto.cbu_destino;
+                int cuitOrigen= transaccionDto.origin_cuil;
+                int cuitDestino=transaccionDto.destination_cuil;
+                string? cbuOrigen = transaccionDto.origin_cbu;
+                string? cbuDestino=transaccionDto.destination_cbu;
 
                 var transaccion = new Transaccion();// creo Transaccion
                 transaccion.FechaHora = DateTime.Now; // le asigno la fecha en la que ingreso a nuestro sistema
@@ -246,8 +246,8 @@ namespace Service.Metodos
                         transaccion.IdCuentaDestino = cuentaDestinoBd.Id;
                     }
 
-                    transaccion.Monto = transaccionDto.Monto;
-                    var tipo = transaccionDto.Tipo;
+                    transaccion.Monto = transaccionDto.amount;
+                    var tipo = transaccionDto.motive;
                     var id = await RetornarIdTipo(tipo);
                     transaccion.IdTipo = id;
 
@@ -275,10 +275,10 @@ namespace Service.Metodos
                 else
                 {
                     // si no cumple la validación guardo sus datos y la seteo estado rechazada 
-                    transaccion.Monto = transaccionDto.Monto;
+                    transaccion.Monto = transaccionDto.amount;
 
                     // Realiza una consulta a la base de datos para buscar Tipo por nombre
-                    var tipo = transaccionDto.Tipo;
+                    var tipo = transaccionDto.motive;
                     var id = await RetornarIdTipo(tipo);
                     transaccion.IdTipo = id;
 
