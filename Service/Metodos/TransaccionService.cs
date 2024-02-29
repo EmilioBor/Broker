@@ -9,6 +9,7 @@ using Service.Interface;
 using Data.Models;
 using Data;
 using Dtos.Response;
+using System.Net.Http;
 
 
 namespace Service.Metodos
@@ -153,9 +154,19 @@ namespace Service.Metodos
                     return false;
                 }
 
+                using HttpClient client = new HttpClient();
+                HttpResponseMessage responseOrigen = await client.GetAsync("https://colosal.duckdns.org:15001/Renaper/api/Persona/getParaBroker/{transaccionDto.cuil_origen}");
+                HttpResponseMessage responseDestino = await client.GetAsync("https://colosal.duckdns.org:15001/Renaper/api/Persona/getParaBroker/{transaccionDto.cuil_destino}");
+
+                string content = await responseOrigen.Content.ReadAsStringAsync();
+                bool esValidocuitOrigen;
+                bool.TryParse(content, out esValidocuitOrigen);
+
+                string contente = await responseDestino.Content.ReadAsStringAsync();
+                bool esValidocuitDestino;
+                bool.TryParse(contente, out esValidocuitDestino);
+
                 // consulto al endpoint del Renaper la validez de los cuit (falta insertar endpoint)
-                bool esValidocuitOrigen = true;// await _httpClient.GetAsync(apiUrl/);
-                bool esValidocuitDestino = true;//await _httpClient.GetAsync(apiUrl/);
 
                 if (esValidocuitOrigen == false )
                 {
