@@ -38,7 +38,7 @@ namespace Broker.Controllers
         }
 
         [HttpGet("listarPorFecha")] // Listar transacciones por fecha
-        public async Task<IEnumerable<Transaccion>> listarTransaccionesPorFecha()
+        public async Task<IEnumerable<TransaccionDtoOut>> listarTransaccionesPorFecha()
         {
             var transacciones = await _transaccionService.listarTransaccionesPorFecha();
 

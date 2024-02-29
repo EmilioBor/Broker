@@ -96,14 +96,26 @@ namespace Service.Metodos
         }
 
 
-        public async Task<IEnumerable<Transaccion>> listarTransaccionesPorFecha()
+        public async Task<IEnumerable<TransaccionDtoOut>> listarTransaccionesPorFecha()
         {
             // Realiza una consulta a la base de datos para devolver todas las transacciones
-            var transacciones = await _context.Transaccion.ToListAsync();
+            var transacciones = await _context.Transaccion
+                .Select(b => new TransaccionDtoOut
+                {
+                    Id = b.Id,
+                    Monto = b.Monto,
+                    FechaHora = b.FechaHora,
+                    NombreTipo = b.IdTipoNavigation.Descripcion,
+                    NombreValidacionEstado = b.IdValidacionEstadoNavigation.Estado,
+                    NombreAceptadoEstado = b.IdAceptadoEstadoNavigation.Estado,
+                    NombreCuentaOrigen = b.IdCuentaOrigenNavigation.Cbu,
+                    NombreCuentaDestino = b.IdCuentaDestinoNavigation.Cbu,
+                    Numero = b.Numero
+            }).ToListAsync();
 
             // ordena las transacciones por fecha
             var transaccionesOrdenadas = transacciones.OrderBy(t => t.FechaHora);
-
+            
             // Devuelve la lista de transacciones por fecha
             return transaccionesOrdenadas;
         }
