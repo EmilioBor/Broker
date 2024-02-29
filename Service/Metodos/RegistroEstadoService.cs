@@ -46,7 +46,7 @@ namespace Service.Metodos
                 .Where(r => r.IdTransaccionNavigation.Numero == numero)
                 .Select(r => new RegistroEstadoDtoOut{
                     Id = r.Id,
-                    FechaHora = DateTime.Now,
+                    FechaHora = r.FechaHora,
                     NombreTransaccion = r.IdTransaccionNavigation.Numero,
                     NombreValidadoEstado = r.IdValidadoEstadoNavigation.Estado,
                     NombreAceptadoEstado = r.IdAceptadoEstadoNavigation.Descripcion,
